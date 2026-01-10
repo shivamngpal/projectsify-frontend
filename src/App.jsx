@@ -1,61 +1,24 @@
-import { useState } from "react"
-const api_url = import.meta.env.VITE_API_URL || "http:localhost:3000";
+import { Navigate, Route, Routes } from "react-router-dom";
+import ProjectDashboard from "./pages/ProjectDashboard";
+import Login from "./pages/Login";
+import Signup from "./pages/SignUp.jsx";
+import CreateProject from "./pages/CreateProject";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/layout/ProtectedRoute";
 
-export default function App(){
-    const [name,setName] = useState("");
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
 
-    const handleSubmit = async(e) => {
-        e.preventDefault();
+      <Route element={<ProtectedRoute />}>
+        <Route path="/projects/new" element={<CreateProject />} />
+        <Route path="/projects/:projectId" element={<ProjectDashboard />} />
+      </Route>
 
-        try {
-          const response = await fetch(`${api_url}/api/auth/signup`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ name, email, password }),
-            }
-          );
-          const data = await response.json();
-          console.log(data);
-        } catch (error) {
-          console.error("Error:", error);
-        }
-    }
-
-    return (
-      <>
-        <h1>Sign Up</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="name"
-            placeholder="Enter your name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <br />
-          <input
-            type="email"
-            placeholder="Enter your email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <br />
-          <input
-            type="password"
-            placeholder="Enter your Password"
-            name="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      </>
-    );
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 }
