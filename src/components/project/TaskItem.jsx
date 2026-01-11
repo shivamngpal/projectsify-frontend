@@ -17,7 +17,13 @@ export default function TaskItem({ task, onToggle, onOpenGuidance }) {
         className="task-checkbox"
       />
 
-      <div className="task-copy" onClick={handleTaskClick} role="button" tabIndex="0" onKeyPress={(e) => e.key === 'Enter' && handleTaskClick()}>
+      <div
+        className="task-copy"
+        onClick={handleTaskClick}
+        role="button"
+        tabIndex="0"
+        onKeyPress={(e) => e.key === "Enter" && handleTaskClick()}
+      >
         <p className={`task-title ${task.completed ? "completed" : ""}`}>
           {task.title}
         </p>

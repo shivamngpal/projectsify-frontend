@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getProjectById } from "../api/project.api";
 import { updateTaskCompletion } from "../api/task.api";
 
+// react hook manages project data and task completion state.
 export default function useProject(projectId) {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +36,7 @@ export default function useProject(projectId) {
     try {
       await updateTaskCompletion(projectId, taskId, completed);
     } catch (err) {
-      // rollback
+      // rollback- if api call fails, revert the task status
       setProject((prev) => ({
         ...prev,
         tasks: prev.tasks.map((t) =>

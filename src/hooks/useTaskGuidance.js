@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { getTaskGuidance } from "../api/task.api";
 
 export default function useTaskGuidance(projectId, taskId) {
@@ -6,7 +6,7 @@ export default function useTaskGuidance(projectId, taskId) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchGuidance = async () => {
+  const fetchGuidance = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -17,7 +17,7 @@ export default function useTaskGuidance(projectId, taskId) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId, taskId]);
 
   return { guidance, loading, error, fetchGuidance };
 }

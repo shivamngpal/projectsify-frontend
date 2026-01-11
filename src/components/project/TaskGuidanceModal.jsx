@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useTaskGuidance from "../../hooks/useTaskGuidance";
 
 export default function TaskGuidanceModal({ projectId, taskId, onClose }) {
@@ -7,9 +7,20 @@ export default function TaskGuidanceModal({ projectId, taskId, onClose }) {
     taskId
   );
 
+  const lastKeyRef = useRef(null);
   useEffect(() => {
-    fetchGuidance();
-  }, [projectId, taskId]);
+    const key = `${projectId}:${taskId}`;
+    // Avoid duplicate fetches (e.g., React StrictMode double-invoke)
+    if (lastKeyRef.current !== key) {
+      lastKeyRef.current = key;
+      fetchGuidance();
+    }
+  }, [projectId, taskId, fetchGuidance]);
+
+  useEffect(() => {
+    document.body.classList.add("modal-open");
+    return () => document.body.classList.remove("modal-open");
+  }, []);
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) onClose();
