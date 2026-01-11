@@ -25,12 +25,19 @@ export default function Signup() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="card stack-md auth-card">
-        <h1>Create your account</h1>
-        <p className="muted">Start generating a project roadmap in minutes.</p>
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-[0_20px_60px_rgba(0,0,0,0.45)] p-8 space-y-6">
+        <div className="space-y-2 text-center">
+          <p className="text-sm font-semibold text-slate-300 uppercase tracking-[0.2em]">
+            Projectsify
+          </p>
+          <h1 className="text-2xl font-bold text-white">Create an account</h1>
+          <p className="text-slate-400 text-sm">
+            Start generating a project roadmap in minutes.
+          </p>
+        </div>
 
-        <form className="stack-md" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <Input
             label="Name"
             name="name"
@@ -59,13 +66,20 @@ export default function Signup() {
             <div className="text-error">{authError || localError}</div>
           )}
 
-          <Button type="submit" disabled={authLoading}>
+          <Button
+            type="submit"
+            disabled={authLoading}
+            className="w-full py-3 text-base"
+          >
             {authLoading ? "Creating account..." : "Sign Up"}
           </Button>
         </form>
 
-        <p className="muted">
-          Already have an account? <Link to="/login">Log in</Link>
+        <p className="text-slate-400 text-sm text-center">
+          Already have an account?{" "}
+          <Link className="text-slate-200 hover:text-white" to="/login">
+            Log in
+          </Link>
         </p>
       </div>
     </div>

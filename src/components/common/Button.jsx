@@ -1,20 +1,5 @@
-export default function Button({
-  type = "button",
-  variant = "primary",
-  children,
-  className = "",
-  ...rest
-}) {
-  const classes = [
-    "btn",
-    variant === "secondary" ? "btn-secondary" : "btn-primary",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
-  return (
-    <button type={type} className={classes} {...rest}>
-      {children}
-    </button>
-  );
+import { Button as UIButton } from "../ui/button";
+
+export default function Button(props) {
+  return <UIButton {...props} />;
 }

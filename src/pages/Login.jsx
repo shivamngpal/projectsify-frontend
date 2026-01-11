@@ -30,14 +30,19 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="card stack-md auth-card">
-        <h1>Welcome back</h1>
-        <p className="muted">
-          Log in to continue building your project roadmap.
-        </p>
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-[0_20px_60px_rgba(0,0,0,0.45)] p-8 space-y-6">
+        <div className="space-y-2 text-center">
+          <p className="text-sm font-semibold text-slate-300 uppercase tracking-[0.2em]">
+            Projectsify
+          </p>
+          <h1 className="text-2xl font-bold text-white">Welcome back</h1>
+          <p className="text-slate-400 text-sm">
+            Log in to continue building your project roadmap.
+          </p>
+        </div>
 
-        <form className="stack-md" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <Input
             label="Email"
             type="email"
@@ -57,13 +62,20 @@ export default function Login() {
 
           {authError && <div className="text-error">{authError}</div>}
 
-          <Button type="submit" disabled={authLoading}>
+          <Button
+            type="submit"
+            disabled={authLoading}
+            className="w-full py-3 text-base"
+          >
             {authLoading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
 
-        <p className="muted">
-          New here? <Link to="/signup">Create an account</Link>
+        <p className="text-slate-400 text-sm text-center">
+          New here?{" "}
+          <Link className="text-slate-200 hover:text-white" to="/signup">
+            Create an account
+          </Link>
         </p>
       </div>
     </div>

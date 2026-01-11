@@ -1,4 +1,7 @@
 import { useEffect, useRef } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { ScrollArea } from "../ui/scroll-area";
 import useTaskGuidance from "../../hooks/useTaskGuidance";
 
 export default function TaskGuidanceModal({ projectId, taskId, onClose }) {
@@ -17,33 +20,24 @@ export default function TaskGuidanceModal({ projectId, taskId, onClose }) {
     }
   }, [projectId, taskId, fetchGuidance]);
 
-  useEffect(() => {
-    document.body.classList.add("modal-open");
-    return () => document.body.classList.remove("modal-open");
-  }, []);
-
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) onClose();
-  };
-
   return (
-    <div className="modal-backdrop" onClick={handleBackdropClick}>
-      <div className="modal" role="dialog" aria-modal="true">
-        <div className="modal__header">
-          <h3>Task Guidance</h3>
-          <button className="btn btn-secondary" onClick={onClose}>
+    <Dialog open onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Task Guidance</DialogTitle>
+          <Button variant="secondary" onClick={onClose}>
             Close
-          </button>
-        </div>
+          </Button>
+        </DialogHeader>
 
-        {loading && <p>Loading guidance...</p>}
+        {loading && <p className="muted">Generating guidance…</p>}
         {error && <p className="text-error">{error}</p>}
 
         {guidance && (
-          <div className="modal__content">
+          <ScrollArea className="modal__content max-h-[70vh] pr-2">
             <section className="stack-sm">
-              <h4>Steps</h4>
-              <ol className="list">
+              <h4 className="text-lg font-semibold">Steps</h4>
+              <ol className="list list-decimal ml-4 space-y-1">
                 {guidance.steps.map((s, i) => (
                   <li key={i}>{s}</li>
                 ))}
@@ -52,7 +46,7 @@ export default function TaskGuidanceModal({ projectId, taskId, onClose }) {
 
             {guidance.codeSnippets?.length > 0 && (
               <section className="stack-sm">
-                <h4>Code</h4>
+                <h4 className="text-lg font-semibold">Code</h4>
                 {guidance.codeSnippets.map((c, i) => (
                   <pre key={i} className="code-block">
                     {c.code}
@@ -62,12 +56,12 @@ export default function TaskGuidanceModal({ projectId, taskId, onClose }) {
             )}
 
             <section className="stack-sm">
-              <h4>Verification</h4>
-              <p>{guidance.verification}</p>
+              <h4 className="text-lg font-semibold">Verification</h4>
+              <p className="muted">{guidance.verification}</p>
             </section>
-          </div>
+          </ScrollArea>
         )}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
