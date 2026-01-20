@@ -1,5 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 import useAuth from "../../hooks/useAuth";
 
 export default function ProtectedRoute() {
@@ -13,9 +14,12 @@ export default function ProtectedRoute() {
   return (
     <>
       <Navbar />
-      <main className="page">
-        <Outlet />
-      </main>
+      <div className="flex">
+        <Sidebar />
+        <main className="page flex-1 w-0">
+          <Outlet />
+        </main>
+      </div>
     </>
   );
 }

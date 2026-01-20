@@ -30,3 +30,15 @@ export async function createProject(projectDescription) {
 
   return res.json();
 }
+
+export async function getUserProjects() {
+  const res = await fetch(`${BASE_URL}/api/user/projects`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch user projects");
+  return res.json();
+}
+
